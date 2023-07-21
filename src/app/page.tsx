@@ -1,33 +1,35 @@
-import { db } from "@/db";
-import { users } from "@/db/schema";
+import { db } from '@/db';
+import { users } from '@/db/schema';
 import { InferModel } from 'drizzle-orm';
-import { revalidatePath } from "next/cache";
+import { revalidatePath } from 'next/cache';
 
+// Type declaration: Remove the semicolon at the end of the line
 type NewUser = InferModel<typeof users, 'insert'>
 
 export default async function Home() {
   const allUsers = await db.select().from(users);
 
   async function addUser(data: FormData) {
+    // Remove single quotes around 'use server'
     'use server'
 
-    const fullName = data.get('full_name')?.toString()
-    const phone = data.get('phone')?.toString()
+    const fullName = data.get('full_name')?.toString();
+    const phone = data.get('phone')?.toString();
 
     if (!fullName || !phone) {
-      return
+      return;
     }
 
     await db.insert(users).values({
       fullName,
       phone
-    })
+    });
 
-    revalidatePath('/')
+    revalidatePath('/');
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-zinc-900 text-zinv-50">
+    <div className="text-zinv-50 flex min-h-screen flex-col items-center justify-center gap-6 bg-zinc-90">
       <p>{JSON.stringify(allUsers, null, 2)}</p>
       <form action={addUser} className="flex flex-col gap-3">
         <input
@@ -46,5 +48,5 @@ export default async function Home() {
         <button type="submit">Create</button>
       </form>
     </div>
-  )
+  );
 }
