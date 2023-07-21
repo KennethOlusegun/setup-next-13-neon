@@ -14,16 +14,16 @@ export default async function Home() {
     const fullName = data.get('full_name')?.toString()
     const phone = data.get('phone')?.toString()
 
-    if(!fullName || !phone){
+    if (!fullName || !phone) {
       return
     }
 
     await db.insert(users).values({
-        fullName,
-        phone
-      })
+      fullName,
+      phone
+    })
 
-      revalidatePath('/')
+    revalidatePath('/')
   }
 
   return (
@@ -32,16 +32,16 @@ export default async function Home() {
       <form action={addUser} className="flex flex-col gap-3">
         <input
           type="text"
-          name="full_name" 
-          placeholder="Fullname" 
-          className="bg-zinc-800 text-white-500" 
-          />
+          name="full_name"
+          placeholder="Fullname"
+          className="bg-zinc-800 text-white-500"
+        />
         <input
           type="text"
           name="phone"
           placeholder="Phone"
-          className="bg-zinc-800 text-white-500" 
-          />
+          className="bg-zinc-800 text-white-500"
+        />
 
         <button type="submit">Create</button>
       </form>
